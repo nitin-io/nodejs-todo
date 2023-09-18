@@ -48,6 +48,18 @@ app.get("/", (req, res) => {
 });
 
 // Update
+app.post("/update/:id", (req, res) => {
+  try {
+    console.log(req.body);
+    const allTasks = JSON.parse(fs.readFileSync("./db.json"));
+    const todoIndex = allTasks.findIndex((el) => el.id === req.params.id);
+    allTasks[todoIndex].task = req.body.updatedTodo;
+    console.log(allTasks);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 // Delete
 
 app.post("/delete/:id", (req, res) => {

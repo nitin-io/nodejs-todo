@@ -14,7 +14,9 @@
       task.completed && 'checked' %> value="<%=task.id%> " id="<%=task.id%>" />
       <label class="task" id="<%=task.id%>"><%= task.task %></label>
       <button class="delete-btn" value="<%=task.id%>">Delete</button>
-      <button class="update-btn">Update</button>
+      <button class="update-btn" id="<%=task.id%>" value="<%=task.task%>">
+        Update
+      </button>
     </div>
     <% } %>
 

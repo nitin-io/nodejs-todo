@@ -1,4 +1,4 @@
-console.log("Hello, World! This is a client side script");
+console.log("This is a client side script");
 
 const deleteBtn = document.getElementsByClassName("delete-btn");
 const updateBtn = document.getElementsByClassName("update-btn");
@@ -11,11 +11,23 @@ Array.from(deleteBtn).forEach((element) => {
   });
 });
 
-// Array.from(updateBtn).forEach((element) => {
-//     element.addEventListener("click", async (e) => {
+Array.from(updateBtn).forEach((element) => {
+  element.addEventListener("click", async (e) => {
+    const updatedTodo = prompt("Update todo: ", e.target.value);
+    const formData = new FormData();
+    formData.append("todo", updatedTodo);
+    console.log(formData);
 
-//     })
-// });
+    await fetch(`/update/${e.target.id}`, {
+      method: "POST",
+      body: { updatedTodo },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return location.reload();
+  });
+});
 
 Array.from(completeBtn).forEach((el) => {
   el.addEventListener("click", (e) => {
