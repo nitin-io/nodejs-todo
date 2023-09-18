@@ -37,37 +37,52 @@ app.post("/add", async (req, res) => {
 // Read
 
 app.get("/", (req, res) => {
-  let jsonData = fs.readFileSync("./db.json");
-  let data = JSON.parse(jsonData);
+  try {
+    let jsonData = fs.readFileSync("./db.json");
+    let data = JSON.parse(jsonData);
 
-  return res.render("index", { allTasks: data });
+    return res.render("index", { allTasks: data });
+  } catch (error) {
+    return console.log(error.message);
+  }
 });
 
 // Update
 // Delete
 
 app.post("/delete/:id", (req, res) => {
-  const allTasks = JSON.parse(fs.readFileSync("./db.json"));
+  try {
+    const allTasks = JSON.parse(fs.readFileSync("./db.json"));
 
-  const filteredTasks = allTasks.filter((el) => el.id !== req.params.id);
+    const filteredTasks = allTasks.filter((el) => el.id !== req.params.id);
 
-  fs.writeFileSync("./db.json", JSON.stringify(filteredTasks));
+    fs.writeFileSync("./db.json", JSON.stringify(filteredTasks));
 
-  res.redirect("/");
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500);
+  }
 });
 
 // Setting Complete
 app.post("/completed/:id", (req, res) => {
-  const allTasks = JSON.parse(fs.readFileSync("./db.json"));
+  try {
+    const allTasks = JSON.parse(fs.readFileSync("./db.json"));
 
-  const taskToSetComplete = allTasks.findIndex((el) => el.id === req.params.id);
+    const taskToSetComplete = allTasks.findIndex(
+      (el) => el.id === req.params.id
+    );
 
-  allTasks[taskToSetComplete].completed =
-    !allTasks[taskToSetComplete].completed;
+    allTasks[taskToSetComplete].completed =
+      !allTasks[taskToSetComplete].completed;
 
-  fs.writeFileSync("./db.json", JSON.stringify(allTasks));
+    fs.writeFileSync("./db.json", JSON.stringify(allTasks));
 
-  res.redirect("/");
+    return res.redirect("/");
+  } catch (error) {
+    return console.log(error.message);
+  }
 });
 
 // Setting a corn job to delete completed tasks on 12:00 AM
