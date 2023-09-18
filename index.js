@@ -71,7 +71,7 @@ app.post("/completed/:id", (req, res) => {
 });
 
 // Setting a corn job to delete completed tasks on 12:00 AM
-cron.schedule("0 58 16 * * *", () => {
+cron.schedule("0 0 0 * * *", () => {
   try {
     const allTasks = JSON.parse(fs.readFileSync("./db.json"));
     const nonCompletedTasks = allTasks.filter((el) => !el.completed);
