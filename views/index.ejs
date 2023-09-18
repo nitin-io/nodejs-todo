@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO</title>
+  </head>
+  <body>
+    <h1>ToDo Application</h1>
+
+    <% for (let task of allTasks) { %>
+    <div class="task-container">
+      <input type="checkbox" name="completed" class="complete-btn"<%=
+      task.completed && 'checked' %> value="<%=task.id%> " id="<%=task.id%>" />
+      <label class="task" id="<%=task.id%>"><%= task.task %></label>
+      <button class="delete-btn" value="<%=task.id%>">Delete</button>
+      <button class="update-btn">Update</button>
+    </div>
+    <% } %>
+
+    <form action="/add" method="post">
+      <input type="text" placeholder="Add New Task" name="task" />
+      <button type="submit">Add</button>
+    </form>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
