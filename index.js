@@ -1,6 +1,6 @@
 import express, { json } from "express";
 import ejs from "ejs";
-import fs from "fs";
+import fs, { writeFileSync } from "fs";
 import cron from "node-cron";
 const port = process.env.PORT || 3000;
 
@@ -48,15 +48,15 @@ app.get("/", (req, res) => {
 });
 
 // Update
-app.post("/update/:id", (req, res) => {
+app.post("/update/:id/:value", (req, res) => {
   try {
-    console.log(req.body);
     const allTasks = JSON.parse(fs.readFileSync("./db.json"));
-    const todoIndex = allTasks.findIndex((el) => el.id === req.params.id);
-    allTasks[todoIndex].task = req.body.updatedTodo;
-    console.log(allTasks);
+    const todoToUpdateIdx = allTasks.findIndex((el) => el.id === req.params.id);
+    allTasks[todoToUpdateIdx].task = req.params.value;
+    writeFileSync("./db.json", JSON.stringify(allTasks));
+    return res.status(200);
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 });
 

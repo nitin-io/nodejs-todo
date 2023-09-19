@@ -18,14 +18,10 @@ Array.from(updateBtn).forEach((element) => {
     formData.append("todo", updatedTodo);
     console.log(formData);
 
-    await fetch(`/update/${e.target.id}`, {
+    await fetch(`/update/${e.target.id}/${updatedTodo}`, {
       method: "POST",
-      body: { updatedTodo },
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-    return location.reload();
+    location.reload();
   });
 });
 
